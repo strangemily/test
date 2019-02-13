@@ -1,0 +1,29 @@
+name: upload-geolocations
+namespace: com.citrix.adc.stylebooks.samples
+version: "1.0"
+display-name: GeoLocation File Upload
+description: This StyleBook is used to upload a geolocation file to Citrix ADC
+schema-version: "1.0"
+
+import-stylebooks:
+-
+ namespace: netscaler.nitro.config
+ version: "11.1"
+ prefix: ns
+
+parameters:
+-
+ name: locationfile
+ label: Location File
+ description: The system file path of the geolocation file on Citrix ADM
+ type: file
+ required: true
+
+components:
+-
+ name: upload-file-comp
+ type: ns::systemfile
+ properties:
+    filename: $parameters.locationfile.filename
+    filelocation: "/var/netscaler/inbuilt_db/"
+    filecontent: base64.encode($parameters.locationfile.contents)
